@@ -20,16 +20,7 @@ this is caused by game loop refreshes
 */
 #define SENSITIVITY 3
 
-/*
-@param cur_value: current value of some periphery (button in our case)
-@param prev_value: the value of the same periphery, as in cur_value, but the
-  value is form the previous refresh of the (while) loop
-@param action_num: number of the current action, this value can be from
-  1 to @param upper_range, each number represents different action that takes place
-@param upper_range: indicates the highest value @param action_num can have
 
-@return action_num: is new action number, which will take place
-*/
 int modify_while_rotating(int cur_value, int prev_value, int action_num, int upper_range) {
 
   // Button moved to the LEFT
@@ -51,12 +42,6 @@ int modify_while_rotating(int cur_value, int prev_value, int action_num, int upp
   return action_num;
 }
 
-/*
-@param x: x coordinate of the text
-@param y: y coordinate of the text
-@param text[]: is the text to be written
-@param colot: color of the text
-*/
 void write_text(int x, int y, char text[], unsigned short color, int scale, int offset) {
     for (int i = 0; text[i] != '\0'; ++i) {
         draw_char(x,y, text[i], color, scale);
@@ -65,12 +50,6 @@ void write_text(int x, int y, char text[], unsigned short color, int scale, int 
         x = 145;
 }
 
-/*
-@param start_x: x coordinate of the starting pixel of the button
-@param start_y: y coordinate of the starting pixel of the button
-@param end_x: x coordinate of the ending pixel of the button
-@param end_y: y coordinate of the ending pixel of the button
-*/
 void draw_button(int start_x, int start_y, int end_x, int end_y) {
     for (int i = 0; i < end_x - start_x; ++i) {
         for (int j = 0; j < end_y - start_y; ++j) {
@@ -79,12 +58,6 @@ void draw_button(int start_x, int start_y, int end_x, int end_y) {
     }
 }
 
-/*
-@param start_x: x coordinate of the starting pixel of the button
-@param start_y: y coordinate of the starting pixel of the button
-@param end_x: x coordinate of the ending pixel of the button
-@param end_y: y coordinate of the ending pixel of the button
-*/
 void draw_outer_lines(int start_x, int start_y, int end_x, int end_y) {
     // 'k' represents the thickness of the outer lines
     for (int k = 0; k < 5; ++k) {

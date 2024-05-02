@@ -1,5 +1,9 @@
 # APO Snake
 
+basic snake is just basic project, with minimum features
+
+snake is current project being worked on
+
 
 
 ## Getting started

@@ -35,50 +35,53 @@ int show_game_modes() {
 
     /*
     TEXTS PROPERTIES
-    Here are defined properties for texts, that will display on buttons
+    Here are defined properties for texts, that will be displyed on the game modes buttons
     ********************************************************************************
     */
-    // Single text
+    // SINGLE text
     int single_x = 145;
     int single_y1 = 10;
     int single_y2 = 90;
     char single_txt[] = "SINGLE";
     unsigned short single_clr = 0xF000;
 
-    // Classic text
+    // CLASSIC text
     int classic_x = 125;
     int classic_y1 = 45;
     int classic_y2 = 205;
     char classic_txt[] = "CLASSIC";
     unsigned short classic_clr = 0xF000;
 
-    // Multiplayer text
+    // MULTIPLAYER text
     int multi_x = 160;
     int multi_y1 = 170;
     int multi_y2 = 250;
     char multi_txt[] = "MULTI";
     unsigned short multi_clr = 0xF000; 
 
-    // Time rush text
+    // TIME RUSH text
     int timerush_x = 110;
     int timerush_y1 = 125;
     int timerush_y2 = 285;
     char timerush_txt[] = "TIMERUSH";
     unsigned short timerush_clr = 0xF000;
 
+    // The extra space between letters
     int offset = 25;
     
     /*
-    END OF TEXT PROPERTIES
+    THE END OF THE TEXT PROPERTIES
     ********************************************************************************
     */
 
+    // Gets current status of the knobs
     int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
     // These two store value of the green knob
     int curr_green = (((r>>8)&0xff));
     int prev_green = (((r>>8)&0xff));
 
+    // There are 4 game modes, each represented by number 1 - 4, where 1 is default
     int gmode_button = 1;
 
     bool gmode_running = true;
@@ -89,10 +92,6 @@ int show_game_modes() {
         Drawing buttons with their texts
         ********************************************************************************
         */
-        // draw_button(40, 50, 220, 120); 
-        // draw_button(240, 50, 420, 120);
-        // draw_button(40, 230, 220, 300);
-        // draw_button(240, 230, 420, 300);
 
         draw_button(100, 10, 380, 80); 
         draw_button(100, 90, 380, 160);
@@ -121,7 +120,7 @@ int show_game_modes() {
         */
 
         r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
-        curr_green = (((r>>8)&0xff)); // green knob
+        curr_green = (((r>>8)&0xff)); 
 
         gmode_button = modify_while_rotating(curr_green, prev_green, gmode_button, 4);
 
@@ -142,6 +141,7 @@ int show_game_modes() {
             break;
         }
 
+        // Drawing on a screen
         parlcd_write_cmd(parlcd_mem_base, 0x2c);
         for (ptr = 0; ptr < 480*320 ; ptr++) {
             parlcd_write_data(parlcd_mem_base, fb[ptr]);

@@ -10,7 +10,6 @@ void make_food(int* random_x, int* random_y) {
 
     *random_x = random_num_in_range(20, 460);
     *random_y = random_num_in_range(20, 300);
-
 }
 
 int random_num_in_range(int min, int max) {

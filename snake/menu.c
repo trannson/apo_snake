@@ -25,6 +25,7 @@ extern unsigned char *mem_base;
 
 int show_menu() {
 
+    // Represents game modes, each has it's own number, 1 is default
     int ret = 1;
 
     struct timespec loop_delay;
@@ -32,19 +33,19 @@ int show_menu() {
     loop_delay.tv_nsec = 150 * 1000 * 1000;
     int ptr;
 
-    
     /*
     TEXTS PROPERTIES
     Here are defined properties for texts, that will display on buttons
     ********************************************************************************
     */
-    // Start button
+
+    // START button
     int start_txt_x = 145;
     int start_txt_y = 40;
     char start_txt_txt[] = "START";
     unsigned short start_txt_clr = 0xF000; 
 
-    // Select mode button
+    // SELECT MODE button
     int gmode_txt_x = 145;
     int gmode_txt_y = 140;
     char gmode_txt_txt[] = "MODE";
@@ -56,10 +57,11 @@ int show_menu() {
     // char gmode_txt_txt[] = "START";
     // unsigned short gmode_txt_clr = 0xF000;
 
+    // Extra space between letters
     int offset = 30;
     
     /*
-    END OF TEXT PROPERTIES
+    THE END OF THE TEXT PROPERTIES
     ********************************************************************************
     */
     
@@ -89,6 +91,7 @@ int show_menu() {
 
         write_text(start_txt_x, start_txt_y, start_txt_txt, start_txt_clr, 4, offset);
         write_text(gmode_txt_x, gmode_txt_y, gmode_txt_txt, gmode_txt_clr, 4, offset);
+        //write_text()
         /*
         End of drawing buttons with their texts
         ********************************************************************************
