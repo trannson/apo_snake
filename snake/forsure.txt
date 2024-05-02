@@ -1,0 +1,70 @@
+/*
+MENU LOOP
+*********************************************************************************************************************************
+*/
+  bool menu_running = true;
+
+  while (menu_running) {
+  
+    show_menu();
+
+    for (int i = 0; text[i] != '\0'; ++i) {
+    draw_char(x,y, text[i], color);
+    x += char_width(text[i]) + 30;
+    }
+
+    parlcd_write_cmd(parlcd_mem_base, 0x2c);
+      for (ptr = 0; ptr < 480*320 ; ptr++) {
+        parlcd_write_data(parlcd_mem_base, fb[ptr]);
+      }
+    sleep(10);
+
+    r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
+    curr_green = (((r>>8)&0xff)); // green knob
+
+    menu_button = modify_while_rotating(curr_green, prev_green, menu_button, 3);
+
+    // Drawing outer lines around the button the cursor is currently on
+    switch (menu_button)
+    {
+    case 1:
+      draw_outer_lines(140, 30, 340, 100);      
+      break;
+    case 2:
+      draw_outer_lines(140, 130, 340, 200);
+      break;
+    case 3:
+      draw_outer_lines(140, 230, 340, 300);
+      break;
+    }
+
+    parlcd_write_cmd(parlcd_mem_base, 0x2c);
+    for (ptr = 0; ptr < 480*320 ; ptr++) {
+        parlcd_write_data(parlcd_mem_base, fb[ptr]);
+    }
+
+    clock_nanosleep(CLOCK_MONOTONIC, 0, &loop_delay, NULL);
+
+    // Clearing the screen (setting all pixels to black)
+    for (ptr = 0; ptr < 320*480 ; ptr++) {
+        fb[ptr]=0u;
+    } 
+
+  // If green knob pressed
+    if ((r&0x7000000)!=0) {
+      switch(menu_button) {
+        case 1:
+          menu_running = false;
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
+      }
+    }
+    prev_green = curr_green;
+  }
+/*
+END OF MENU LOOP
+*********************************************************************************************************************************
+*/

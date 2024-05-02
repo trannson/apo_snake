@@ -1,7 +1,9 @@
 #include "collisions.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 
 /*
 Dimensions of the LCD panel
@@ -24,4 +26,12 @@ bool check_collisions(int snake_x, int snake_y) {
         ret = false;
     }
     return ret;
+}
+
+bool apple_collision(int snake_x, int snake_y, int apple_x, int apple_y) {
+    if (abs(snake_x - apple_x) < 20 && abs(snake_y - apple_y) < 20) {
+        return true;
+    } else {
+        return false;
+    }
 }

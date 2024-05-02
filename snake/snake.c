@@ -23,7 +23,7 @@ unsigned short *fb;
 Each snake will be make of array of these squares
 int x is each square x coordinate
 int y is each square y coordinate
-x and y are coordinates of the top let corner of the square
+x and y are coordinates of the top left corner of the square
 */
 typedef struct {
   int x;
@@ -36,25 +36,8 @@ void draw_pixel(int x, int y, unsigned short color) {
   }
 } 
 
-void draw_char(int x, int y, font_descriptor_t* fdes, char ch) {
-}
- 
-int char_width(font_descriptor_t* fdes, int ch) {
-  int width = 0;
-  if ((ch >= fdes->firstchar) && (ch-fdes->firstchar < fdes->size)) {
-    ch -= fdes->firstchar;
-    if (!fdes->width) {
-      width = fdes->maxwidth;
-    } else {
-      width = fdes->width[ch];
-    }
-  }
-  return width;
-}
- 
 int main(int argc, char *argv[]) {  
-  
-  font_descriptor_t* fdes = &font_winFreeSystem8x16;
+
   int snake_length = 3;
   int square_size = 15;
 
@@ -102,13 +85,24 @@ int main(int argc, char *argv[]) {
   
   int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
+  // These tow store value of the green knob
   int curr_green = (((r>>8)&0xff));
   int prev_green = (((r>>8)&0xff));
+
+  /*
+  Indicates which button in the menu the cursor is currently on
+  1 means START GAME (top), 2 means SETTINGS (middle), 3 means EXIT (down)
+  */
   int menu_button = 1;
+
   show_menu();
+  
+/*
+MENU LOOP
+*********************************************************************************************************************************
+*/
   bool menu_running = true;
 
-  // Menu loop
   while (menu_running) {
   
     show_menu();
@@ -118,12 +112,18 @@ int main(int argc, char *argv[]) {
 
     menu_button = modify_while_rotating(curr_green, prev_green, menu_button, 3);
 
-    if (menu_button == 1) {
-      draw_outher_button(140, 30, 340, 100);
-    } else if (menu_button == 2) {
-      draw_outher_button(140, 130, 340, 200);
-    } else if (menu_button == 3) {
-      draw_outher_button(140, 230, 340, 300);
+    // Drawing outer lines around the button the cursor is currently on
+    switch (menu_button)
+    {
+    case 1:
+      draw_outer_lines(140, 30, 340, 100);      
+      break;
+    case 2:
+      draw_outer_lines(140, 130, 340, 200);
+      break;
+    case 3:
+      draw_outer_lines(140, 230, 340, 300);
+      break;
     }
 
     parlcd_write_cmd(parlcd_mem_base, 0x2c);
@@ -133,6 +133,7 @@ int main(int argc, char *argv[]) {
 
     clock_nanosleep(CLOCK_MONOTONIC, 0, &loop_delay, NULL);
 
+    // Clearing the screen (setting all pixels to black)
     for (ptr = 0; ptr < 320*480 ; ptr++) {
         fb[ptr]=0u;
     } 
@@ -151,6 +152,11 @@ int main(int argc, char *argv[]) {
     }
     prev_green = curr_green;
   }
+/*
+END OF MENU LOOP
+*********************************************************************************************************************************
+*/
+
 
 /*
 GAME LOOP
@@ -230,8 +236,6 @@ int prev_snake_dir = ((r&0xff));
       break;
     }
 
-
- 
     parlcd_write_cmd(parlcd_mem_base, 0x2c);
     for (ptr = 0; ptr < 480*320 ; ptr++) {
         parlcd_write_data(parlcd_mem_base, fb[ptr]);
@@ -241,6 +245,7 @@ int prev_snake_dir = ((r&0xff));
   }
 
 /*
+END OF GAME LOOP
 *********************************************************************************************************************************
 */
  
@@ -249,7 +254,7 @@ int prev_snake_dir = ((r&0xff));
     parlcd_write_data(parlcd_mem_base, 0);
   }
  
-  printf("Goodbye world\n");
+  printf("Program ended\n");
  
   return 0;
 }

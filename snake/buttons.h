@@ -10,4 +10,17 @@ since last refresh, when those values are the same, then action_num stays the sa
 */
 int modify_while_rotating(int cur_value, int prev_value, int action_num, int upper_range);
 
+void write_text(int x, int y, char text[], unsigned short color, int scale, int offset);
+
+/*
+Gets two points and paints the space between them with one color
+Color can be changed in menu.c
+*/
+void draw_button(int start_x, int start_y, int end_x, int end_y);
+
+/*
+Draws outer lines around button
+*/
+void draw_outer_lines(int start_x, int start_y, int end_x, int end_y);
+
 #endif // BUTTONS_H
