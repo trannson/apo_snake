@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+
+int check_collisions(int snake01_x, int snake01_y, int snake02_x, int snake02_y, int* apple_x, int* apple_y);
+
 /*
 * Checks if the snake's head has reached the screen boundaries
 *
@@ -10,7 +13,7 @@
 * @param snake_y: current y coordinate of the snake's head
 * @return ret: true if the snake is still inside the boarders, false if out of bounds
 */
-bool check_collisions(int snake_x, int snake_y);
+bool check_bounds_collisions(int snake_x, int snake_y);
 
 /*
 * Checks if the snake's head had collided with an apple
@@ -21,6 +24,6 @@ bool check_collisions(int snake_x, int snake_y);
 * @param apple_y: y coordinate of the apple
 * @return ret: true if the snake reached the apple, otherwise false
 */
-bool apple_collision(int snake_x, int snake_y, int apple_x, int apple_y);
+bool apple_collision(int snake_x, int snake_y, int* apple_x, int* apple_y);
 
 #endif // COLLISIONS_H

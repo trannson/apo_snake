@@ -20,6 +20,7 @@
 #include "buttons.h"
 #include "draw_px_or_char.h"
 #include "food_maker.h"
+#include "snake_prop.h"
  
 unsigned short *fb;
 unsigned char *parlcd_mem_base;
@@ -31,14 +32,8 @@ int x is each square x coordinate
 int y is each square y coordinate
 x and y are coordinates of the top left corner of the square
 */
-typedef struct {
-  int x;
-  int y;
-} squares;
 
 int main(int argc, char *argv[]) {  
-
-  int square_size = 15;
 
   int i,j;
   int ptr;
@@ -111,43 +106,37 @@ Choosing game mode
 GAME LOOP
 *********************************************************************************************************************************
 */
-int snake_length = 3;
-
-squares snake[snake_length];
-    // initialized snake coords
-    for (int k = 0; k < snake_length; k++) {
-      snake[k].x = 150 - square_size;
-      snake[k].y = 150;
-    }
-
-int blue_snake_len = 3;
-int blue_snake_dir = 1;
-int blue_snake_curr_dir = ((r&0xff));
-int blue_snake_prev_dir = ((r&0xff));
-
-if (player2) {
-  int red_snake_len = 3;
-  int red_snake_dir = 4;
-  int red_snake_curr_dir;
-  int red_snake_prev_dir;
-}
 
 /*
   Snake's direction
   1 means LEFT, 2 means TOP, 3 means RIGHT, 4 means DOWN
 */
-int snake_direction = 1;
+  int blue_snake_len = 2;
+  int blue_snake_dir = 1;
+  int blue_snake_curr_dir = ((r&0xff));
+  int blue_snake_prev_dir = ((r&0xff));
+  unsigned short blue_snake_clr = 0x7ff;
 
-int curr_snake_dir = ((r&0xff));
-int prev_snake_dir = ((r&0xff));
+  Snake* blue_snake = create_snake_part(0, 150, 150);
+  Snake* blue_tail = create_snake_part(1, 165, 150);
+  add_snake(blue_snake, blue_tail);
 
-// FOOD
-bool eaten = false;
-int apple_x = 200;
-int apple_y = 200;
+  int red_snake_len = 2;
+  int red_snake_dir = 4;
+  int red_snake_curr_dir = (((r>>16)&0xff));
+  int red_snake_prev_dir = (((r>>16)&0xff));
+  unsigned short red_snake_clr = 0xF000;
+  
+  Snake* red_snake = create_snake_part(0, 50, 50);
+  Snake* red_tail = create_snake_part(1, 35, 50);
+  add_snake(red_snake, red_tail);
+  
+  // FOOD
+  bool eaten = false;
+  int apple_x = 200;
+  int apple_y = 200;
 
   while (1) {
-    squares old_head = snake[0];
  
     r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
@@ -156,69 +145,59 @@ int apple_y = 200;
       printf("k\n");
     }
 
-    // moving head
-    switch(snake_direction) {
-      case 1: 
-        snake[0].x -= square_size;
-        break;
-      case 2:
-        snake[0].y -= square_size;
-        break;
-      case 3:
-        snake[0].x += square_size;
-        break;
-      case 4:
-        snake[0].y += square_size;
-        break;
-    }
+    blue_snake_curr_dir = ((r&0xff)); // blue knob
+    red_snake_curr_dir = (((r>>16)&0xff));
+
+    blue_snake_dir = modify_while_rotating(blue_snake_curr_dir, blue_snake_prev_dir, blue_snake_dir, 4);
+    red_snake_dir = modify_while_rotating(red_snake_curr_dir, red_snake_prev_dir, red_snake_dir, 4);
+
+    blue_snake_prev_dir = blue_snake_curr_dir;
+    red_snake_prev_dir = red_snake_curr_dir;
+
+    move_snakes_body(blue_tail);
+    move_snakes_body(red_tail);
+
+    move_snakes_head(blue_snake_dir, blue_snake);
+    move_snakes_head(red_snake_dir, red_snake);
     
-    curr_snake_dir = ((r&0xff)); // blue knob
-
-    snake_direction = modify_while_rotating(curr_snake_dir, prev_snake_dir, snake_direction, 4);
-
-    prev_snake_dir = curr_snake_dir;
-    
-    // yy = (((r>>16)&0xff)*320)/256; // green knob
-
-    // moving tail
-      for (int k = 1; k < snake_length; k++) {
-        squares temp = snake[k]; // saving tail square into temp
-        // setting tail squares to be old head square
-        snake[k].x = old_head.x; 
-        snake[k].y = old_head.y;
-
-        // saved tail temp is a "new" old head for the tail square behind him
-        old_head = temp; 
-    }
-
+    // Black screen
     for (ptr = 0; ptr < 320*480 ; ptr++) {
         fb[ptr]=0u; 
     }
     
-    // draw square
-    for (int k = 0; k < snake_length; k++) {
-      for (j=0; j<square_size; j++) {
-        for (i=0; i<square_size; i++) {
-            draw_pixel(i+snake[k].x,j+snake[k].y,0x7ff);
-        }
-      }
-    }
-eaten = apple_collision(snake[0].x, snake[1].y, apple_x, apple_y);
-  // draw apple
-    if (eaten) {
-      make_food(&apple_x, &apple_y);
-    } else {
-      for (int i = 0; i < 11; ++i) {
-        for (int j = 0; j < 11; ++j) {
-          draw_pixel(i+apple_x, j + apple_y, 0xF000);
-        }
-      }
-    }
+    draw_snake(blue_snake, blue_snake_clr);
+    draw_snake(red_snake, red_snake_clr);
+    draw_apple(apple_x, apple_y);
 
-    if (!check_collisions(snake[0].x, snake[0].y)) {
-      printf("Snake out\n");
+    int gloo = check_collisions(blue_snake->x, blue_snake->y, red_snake->x, red_snake->y, &apple_x, &apple_y);
+
+    if (gloo == 2 || gloo == 3) {
       break;
     }
+
+    if (gloo == 4) {
+      Snake* tmp = create_snake_part(blue_tail->index++, blue_tail->x, blue_tail->y);
+      add_snake(blue_tail, tmp);
+      blue_tail = tmp;
+      blue_snake_len++;
+    }
+    
+    // // draw apple
+    //   if (eaten) {
+    //     make_food(&apple_x, &apple_y);
+    //     add_snake(blue_tail, create_snake_part((blue_tail->index)++, blue_tail->x, blue_tail->y));
+    //     blue_tail = blue_tail->next;
+      
+    
+
+    // if (!check_collisions(blue_snake->x, blue_snake->y)) {
+    //   printf("Snake out\n");
+    //   break;
+    // }
+    // if (!check_collisions(red_snake->x, red_snake->y)) {
+    //   printf("Snake out\n");
+    //   break;
+    // }
 
     parlcd_write_cmd(parlcd_mem_base, 0x2c);
     for (ptr = 0; ptr < 480*320 ; ptr++) {
