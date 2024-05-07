@@ -28,13 +28,6 @@ unsigned short *fb;
 unsigned char *parlcd_mem_base;
 unsigned char *mem_base;
 
-/*
-Each snake will be make of array of these squares
-int x is each square x coordinate
-int y is each square y coordinate
-x and y are coordinates of the top left corner of the square
-*/
-
 int main(int argc, char *argv[]) {  
   int ptr;
   unsigned int c;
@@ -66,16 +59,14 @@ int main(int argc, char *argv[]) {
   
 
   while (1) {
-  /*
-  This will show a menu scene
-  */
+    /*
+    This will show a menu scene
+    */
     int game_mode = show_menu();
 
-    /*
-    Choosing game mode
-    */
-    bool timerush = false;
-
+      /*
+      Choosing a game mode
+      */
       switch(game_mode) {
         // Single classic
         case 1:
@@ -95,11 +86,13 @@ int main(int argc, char *argv[]) {
           break;
       }
 
+      // If the EXIT button was pressed (in the menu)
       if (game_mode == 5) {
-        break;
+        break; // Ending the whole game
       }
   }
-  
+
+    // Setting the screen black
     parlcd_write_cmd(parlcd_mem_base, 0x2c);
     for (ptr = 0; ptr < 480*320 ; ptr++) {
       parlcd_write_data(parlcd_mem_base, 0);

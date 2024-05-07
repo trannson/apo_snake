@@ -41,10 +41,10 @@ Snake* create_snake_part(int index, int x, int y) {
   return new_node;
 }
 
-void add_snake(Snake* head, Snake* new_node) {
+void add_snake(Snake* old_tail, Snake* new_tail) {
   
-  head->next = new_node;
-  new_node->previous = head;
+  old_tail->next = new_tail;
+  new_tail->previous = old_tail;
   
 }
 
@@ -70,19 +70,19 @@ void move_snakes_body(Snake* tail) {
     move_snakes_body(tail->previous);
 }
 
-void move_snakes_head(int snake_dir, Snake* snake) {
+void move_snakes_head(int snake_dir, Snake* head) {
     switch(snake_dir) {
       case 1: 
-        snake->x -= SQUARE_SIZE;
+        head->x -= SQUARE_SIZE;
         break;
       case 2:
-        snake->y -= SQUARE_SIZE;
+        head->y -= SQUARE_SIZE;
         break;
       case 3:
-        snake->x += SQUARE_SIZE;
+        head->x += SQUARE_SIZE;
         break;
       case 4:
-        snake->y += SQUARE_SIZE;
+        head->y += SQUARE_SIZE;
         break;
     }
 }

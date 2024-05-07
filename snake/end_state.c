@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include <termios.h>            //termios, TCSANOW, ECHO, ICANON
  
-
 #include "mzapo_parlcd.h"
 #include "mzapo_phys.h"
 #include "mzapo_regs.h"
@@ -23,7 +22,6 @@
 #include "snake_prop.h"
 #include "singleplayer.h"
 #include "multiplayer.h"
-
 
 extern unsigned short *fb;
 extern unsigned char *parlcd_mem_base;
@@ -43,7 +41,6 @@ void init_screen_state(SnakeBig* Bigsnake) {
     }
 
     draw_died_screen(Bigsnake);
-
 }
 
 void draw_died_screen(SnakeBig* Bigsnake) {
@@ -75,8 +72,6 @@ void draw_died_screen(SnakeBig* Bigsnake) {
 
         draw_outer_lines(140, 200, 340, 270);
 
-
-
         parlcd_write_cmd(parlcd_mem_base, 0x2c);
         for (int ptr = 0; ptr < 480*320 ; ptr++) {
             parlcd_write_data(parlcd_mem_base, fb[ptr]);
@@ -86,10 +81,5 @@ void draw_died_screen(SnakeBig* Bigsnake) {
             clock_nanosleep(CLOCK_MONOTONIC, 0, &loop_delay, NULL);
             break;
         }
-
-
-        
     }
-
-
 }

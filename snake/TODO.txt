@@ -1,0 +1,5 @@
+Change the return in collisions.c in function check_collisions and it's doc in collisions.h
+
+In end_state.c, improve the end screen, both player, score etc.
+
+top score scene
