@@ -2,9 +2,10 @@
 #define COLLISIONS_H
 
 #include <stdbool.h>
+#include "snake_prop.h"
 
 
-int check_collisions(int snake01_x, int snake01_y, int snake02_x, int snake02_y, int* apple_x, int* apple_y);
+int check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y);
 
 /*
 * Checks if the snake's head has reached the screen boundaries

@@ -65,6 +65,8 @@ int main(int argc, char *argv[]) {
     }
   }
   
+
+  while (1) {
   /*
   This will show a menu scene
   */
@@ -75,23 +77,28 @@ int main(int argc, char *argv[]) {
   */
   bool timerush = false;
 
-  switch(game_mode) {
-    // Single classic
-    case 1:
-      singleplayer(false);
+    switch(game_mode) {
+      // Single classic
+      case 1:
+        singleplayer(false);
+        break;
+      // Single time rush
+      case 2:
+        singleplayer(true);
+        break;
+      // Multi classic
+      case 3:
+        multiplayer(false);
+        break;
+      // Multi time rush
+      case 4:
+        multiplayer(true);
+        break;
+    }
+
+    if (game_mode == 5) {
       break;
-    // Single time rush
-    case 2:
-      singleplayer(true);
-      break;
-    // Multi classic
-    case 3:
-      multiplayer(false);
-      break;
-    // Multi time rush
-    case 4:
-      multiplayer(true);
-      break;
+    }
   }
  
   parlcd_write_cmd(parlcd_mem_base, 0x2c);

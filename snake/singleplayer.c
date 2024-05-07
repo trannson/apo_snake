@@ -63,17 +63,10 @@ void singleplayer(bool timerush) {
     
     draw_apple(apple_x, apple_y);
 
-    int gloo = check_collisions(Bblue_snake->snake->x, Bblue_snake->snake->y, Bblue_snake->snake->x, Bblue_snake->snake->y, &apple_x, &apple_y);
+    int gloo = check_collisions(Bblue_snake, Bblue_snake, &apple_x, &apple_y);
 
     if (gloo == 2 || gloo == 3) {
       break;
-    }
-
-    if (gloo == 4) {
-      Snake* tmp = create_snake_part(Bblue_snake->tail->index++, Bblue_snake->tail->x, Bblue_snake->tail->y);
-      add_snake(Bblue_snake->tail, tmp);
-      Bblue_snake->tail = tmp;
-      Bblue_snake->lenght++;
     }
 
     // Painting the LCD display
