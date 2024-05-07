@@ -25,12 +25,12 @@
 #include "multiplayer.h"
 
 
+extern unsigned short *fb;
+extern unsigned char *parlcd_mem_base;
+extern unsigned char *mem_base;
 
 void init_screen_state(SnakeBig* Bigsnake) {
     int ptr = 0;
-    unsigned short *fb;
-    unsigned char *parlcd_mem_base;
-    unsigned char *mem_base;
 
     for (int i = 0; i < 320 ; i++) {
         for (int j = 0; j < 480 ; j++) {
@@ -40,26 +40,18 @@ void init_screen_state(SnakeBig* Bigsnake) {
         }
     }
 
-    while (1) {
-        int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
-        draw_died(Bigsnake);
-
-        parlcd_write_cmd(parlcd_mem_base, 0x2c);
-        for (ptr = 0; ptr < 480*320 ; ptr++) {
-            parlcd_write_data(parlcd_mem_base, 0);
-        }
-
-         if ((r&0x7000000)!=0) {
-            break;
-        }
-    
-    }
+    draw_died(Bigsnake);
 
 }
 
 void draw_died(SnakeBig* Bigsnake) {
     char* message;
     char back_to_menu[] = "MENU";
+
+    struct timespec loop_delay;
+    loop_delay.tv_sec = 0;
+    loop_delay.tv_nsec = 150 * 1000 * 1000;
+
     switch (Bigsnake->color) {
         case 0x7ff:
             message = "Blue died";
@@ -71,11 +63,31 @@ void draw_died(SnakeBig* Bigsnake) {
             break;
     }
 
-    write_text(90, 90, message, Bigsnake->color, 4, 20);
+    while (1) {
+        int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
+        write_text(97, 90, message, Bigsnake->color, 4, 25);
 
-    draw_button(140, 230, 340, 300);
+        draw_button(140, 200, 340, 270);
 
-    write_text(145, 240, back_to_menu, 0xF000, 4, 20);
+        write_text(167, 205, back_to_menu, 0xF000, 4, 25);
+
+        draw_outer_lines(140, 200, 340, 270);
+
+
+
+        parlcd_write_cmd(parlcd_mem_base, 0x2c);
+        for (int ptr = 0; ptr < 480*320 ; ptr++) {
+            parlcd_write_data(parlcd_mem_base, fb[ptr]);
+        }
+
+         if ((r&0x7000000)!=0) {
+            clock_nanosleep(CLOCK_MONOTONIC, 0, &loop_delay, NULL);
+            break;
+        }
+
+
+        
+    }
 
 
 }

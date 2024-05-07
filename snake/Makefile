@@ -12,7 +12,7 @@ LDLIBS += -lrt -lpthread
 SOURCES = change_me.c mzapo_phys.c mzapo_parlcd.c serialize_lock.c collisions.c menu.c buttons.c draw_px_or_char.c game_modes.c food_maker.c snake_prop.c singleplayer.c multiplayer.c end_state.c
 SOURCES += font_prop14x16.c font_rom8x16.c
 TARGET_EXE = change_me
-TARGET_IP ?= 192.168.223.106
+TARGET_IP ?= 192.168.223.163
 ifeq ($(TARGET_IP),)
 ifneq ($(filter debug run,$(MAKECMDGOALS)),)
 $(warning The target IP address is not set)

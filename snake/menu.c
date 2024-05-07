@@ -52,10 +52,10 @@ int show_menu() {
     unsigned short gmode_txt_clr = 0xF000; 
 
     // Last button TODO
-    // int gmode_txt_x = 145;
-    // int gmode_txt_y = 40;
-    // char gmode_txt_txt[] = "START";
-    // unsigned short gmode_txt_clr = 0xF000;
+    int exit_txt_x = 145;
+    int exit_txt_y = 240;
+    char exit_txt_txt[] = "EXIT";
+    unsigned short exit_txt_clr = 0xF000;
 
     // Extra space between letters
     int offset = 30;
@@ -91,7 +91,7 @@ int show_menu() {
 
         write_text(start_txt_x, start_txt_y, start_txt_txt, start_txt_clr, 4, offset);
         write_text(gmode_txt_x, gmode_txt_y, gmode_txt_txt, gmode_txt_clr, 4, offset);
-        //write_text()
+        write_text(exit_txt_x, exit_txt_y, exit_txt_txt, exit_txt_clr, 4, offset);
         /*
         End of drawing buttons with their texts
         ********************************************************************************
@@ -137,7 +137,10 @@ int show_menu() {
                 case 2:
                     ret = show_game_modes();
                     break;
-
+                case 3:
+                    ret = 5;
+                    menu_running = false;
+                    break;
             }
         }
     prev_green = curr_green;

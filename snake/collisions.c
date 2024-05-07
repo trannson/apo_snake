@@ -18,10 +18,10 @@ Dimensions of the LCD panel
 int check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y) {
     int ret = 1;
     if (check_bounds_collisions(Bblue_snake->snake->x, Bblue_snake->snake->y)) {
-        // init_screen_state(Bblue_snake);
+        init_screen_state(Bblue_snake);
         ret = 2;
     } else if(check_bounds_collisions(Bred_snake->snake->x, Bred_snake->snake->y)) {
-        // init_screen_state(Bred_snake);
+        init_screen_state(Bred_snake);
         ret = 3;
     } else if (apple_collision(Bblue_snake->snake->x, Bblue_snake->snake->y, apple_x, apple_y)) {
         make_food(apple_x, apple_y);

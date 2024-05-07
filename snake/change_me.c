@@ -70,40 +70,41 @@ int main(int argc, char *argv[]) {
   /*
   This will show a menu scene
   */
-  int game_mode = show_menu();
+    int game_mode = show_menu();
 
-  /*
-  Choosing game mode
-  */
-  bool timerush = false;
+    /*
+    Choosing game mode
+    */
+    bool timerush = false;
 
-    switch(game_mode) {
-      // Single classic
-      case 1:
-        singleplayer(false);
+      switch(game_mode) {
+        // Single classic
+        case 1:
+          singleplayer(false);
+          break;
+        // Single time rush
+        case 2:
+          singleplayer(true);
+          break;
+        // Multi classic
+        case 3:
+          multiplayer(false);
+          break;
+        // Multi time rush
+        case 4:
+          multiplayer(true);
+          break;
+      }
+
+      if (game_mode == 5) {
         break;
-      // Single time rush
-      case 2:
-        singleplayer(true);
-        break;
-      // Multi classic
-      case 3:
-        multiplayer(false);
-        break;
-      // Multi time rush
-      case 4:
-        multiplayer(true);
-        break;
+      }
     }
 
-    if (game_mode == 5) {
-      break;
-    }
-  }
- 
-  parlcd_write_cmd(parlcd_mem_base, 0x2c);
-  for (ptr = 0; ptr < 480*320 ; ptr++) {
-    parlcd_write_data(parlcd_mem_base, 0);
+  
+    parlcd_write_cmd(parlcd_mem_base, 0x2c);
+    for (ptr = 0; ptr < 480*320 ; ptr++) {
+      parlcd_write_data(parlcd_mem_base, 0);
   }
  
   printf("Program ended\n");
