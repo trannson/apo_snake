@@ -36,7 +36,6 @@ x and y are coordinates of the top left corner of the square
 */
 
 int main(int argc, char *argv[]) {  
-
   int ptr;
   unsigned int c;
   fb  = (unsigned short *)malloc(320*480*2);
@@ -99,15 +98,15 @@ int main(int argc, char *argv[]) {
       if (game_mode == 5) {
         break;
       }
-    }
-
+  }
   
     parlcd_write_cmd(parlcd_mem_base, 0x2c);
     for (ptr = 0; ptr < 480*320 ; ptr++) {
       parlcd_write_data(parlcd_mem_base, 0);
-  }
+  
+    }
  
   printf("Program ended\n");
  
   return 0;
-}
+  }

@@ -29,6 +29,8 @@ extern unsigned short *fb;
 extern unsigned char *parlcd_mem_base;
 extern unsigned char *mem_base;
 
+void draw_died_screen(SnakeBig* Bigsnake);
+
 void init_screen_state(SnakeBig* Bigsnake) {
     int ptr = 0;
 
@@ -40,12 +42,12 @@ void init_screen_state(SnakeBig* Bigsnake) {
         }
     }
 
-    draw_died(Bigsnake);
+    draw_died_screen(Bigsnake);
 
 }
 
-void draw_died(SnakeBig* Bigsnake) {
-    char* message;
+void draw_died_screen(SnakeBig* Bigsnake) {
+    char* message = NULL;
     char back_to_menu[] = "MENU";
 
     struct timespec loop_delay;

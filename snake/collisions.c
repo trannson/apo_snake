@@ -15,8 +15,14 @@ Dimensions of the LCD panel
 #define WIDTH 480
 #define HEIGHT 320
 
+
 int check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y) {
     int ret = 1;
+    if (check_snake_collision(Bblue_snake)) {
+        init_screen_state(Bblue_snake);
+        ret = 2;
+    } 
+
     if (check_bounds_collisions(Bblue_snake->snake->x, Bblue_snake->snake->y)) {
         init_screen_state(Bblue_snake);
         ret = 2;
@@ -48,6 +54,23 @@ bool check_bounds_collisions(int snake_x, int snake_y) {
     if ((snake_x > WIDTH) || (snake_y > HEIGHT) || (snake_x < 0) || (snake_y < 0) ) {
         printf("Snake out of range\n");
         ret = true;
+    }
+    return ret;
+}
+
+bool check_snake_collision(SnakeBig* BigSnake) {
+    bool ret = false;
+
+    // iterate over body
+    Snake* current = BigSnake->snake;
+    while (current->next != NULL) {
+        if (BigSnake->snake->x == current->next->x && BigSnake->snake->y == current->next->y) {
+            ret = true;
+            break;  
+        }
+
+        current = current->next;
+        
     }
     return ret;
 }

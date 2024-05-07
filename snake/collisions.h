@@ -27,4 +27,6 @@ bool check_bounds_collisions(int snake_x, int snake_y);
 */
 bool apple_collision(int snake_x, int snake_y, int* apple_x, int* apple_y);
 
+bool check_snake_collision(SnakeBig* BigSnake);
+
 #endif // COLLISIONS_H
