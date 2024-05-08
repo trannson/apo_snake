@@ -4,8 +4,6 @@ In end_state.c, improve the end screen, both player, score etc.
 
 top score scene
 
-end_state.h comments
-
 collisions.h comments
 
 end_state multi
