@@ -16,27 +16,22 @@ Dimensions of the LCD panel
 #define HEIGHT 320
 
 
-int check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y) {
-    int ret = 1;
-    if (check_snake_collision(Bblue_snake)) {
-        init_screen_state(Bblue_snake);
-        ret = 2;
-    } 
-
-    if (check_bounds_collisions(Bblue_snake->snake->x, Bblue_snake->snake->y)) {
-        init_screen_state(Bblue_snake);
-        ret = 2;
-    } else if(check_bounds_collisions(Bred_snake->snake->x, Bred_snake->snake->y)) {
-        init_screen_state(Bred_snake);
-        ret = 3;
+bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y, bool multiplayer) {
+    bool ret = false;
+    if (check_snake_collision(Bblue_snake) || check_bounds_collisions(Bblue_snake->snake->x, Bblue_snake->snake->y)) 
+    {
+        init_screen_state(Bblue_snake, Bred_snake, multiplayer);
+        ret = true;
+    } else if (check_snake_collision(Bred_snake) || check_bounds_collisions(Bred_snake->snake->x, Bred_snake->snake->y)) 
+    {
+        init_screen_state(Bred_snake, Bblue_snake, multiplayer);
+        ret = true;
     } else if (apple_collision(Bblue_snake->snake->x, Bblue_snake->snake->y, apple_x, apple_y)) {
         make_food(apple_x, apple_y);
-
         Snake* tmp = create_snake_part(Bblue_snake->tail->index++, Bblue_snake->tail->x, Bblue_snake->tail->y);
         add_snake(Bblue_snake->tail, tmp);
         Bblue_snake->tail = tmp;
         Bblue_snake->lenght++;
-        ret = 4;
     } else if (apple_collision(Bred_snake->snake->x, Bred_snake->snake->y, apple_x, apple_y)) {
         make_food(apple_x, apple_y);
 
@@ -44,7 +39,6 @@ int check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, 
         add_snake(Bred_snake->tail, tmp);
         Bred_snake->tail = tmp;
         Bred_snake->lenght++;
-        ret = 5;
     }
     return ret;
 }

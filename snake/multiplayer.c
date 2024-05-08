@@ -70,9 +70,7 @@ void multiplayer(bool timerush) {
 
         draw_apple(apple_x, apple_y);
 
-        int gloo = check_collisions(Bblue_snake, Bred_snake, &apple_x, &apple_y);
-
-        if (gloo == 2 || gloo == 3) {
+        if(check_collisions(Bblue_snake, Bred_snake, &apple_x, &apple_y, true)) {
             break;
         }
 

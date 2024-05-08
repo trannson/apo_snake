@@ -63,9 +63,7 @@ void singleplayer(bool timerush) {
     
     draw_apple(apple_x, apple_y);
 
-    int gloo = check_collisions(Bblue_snake, Bblue_snake, &apple_x, &apple_y);
-
-    if (gloo == 2 || gloo == 3) {
+    if (check_collisions(Bblue_snake, Bblue_snake, &apple_x, &apple_y, false)) {
       break;
     }
 

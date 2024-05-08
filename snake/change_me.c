@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include <termios.h>            //termios, TCSANOW, ECHO, ICANON
  
-
 #include "mzapo_parlcd.h"
 #include "mzapo_phys.h"
 #include "mzapo_regs.h"
@@ -46,7 +45,7 @@ int main(int argc, char *argv[]) {
   parlcd_hx8357_init(parlcd_mem_base);
  
   parlcd_write_cmd(parlcd_mem_base, 0x2c);
-  ptr=0;
+  ptr = 0;
 
   // remove background, initialize on 0
   for (int i = 0; i < 320 ; i++) {
@@ -96,7 +95,6 @@ int main(int argc, char *argv[]) {
     parlcd_write_cmd(parlcd_mem_base, 0x2c);
     for (ptr = 0; ptr < 480*320 ; ptr++) {
       parlcd_write_data(parlcd_mem_base, 0);
-  
     }
  
   printf("Program ended\n");

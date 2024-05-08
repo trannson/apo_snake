@@ -10,14 +10,16 @@
 *
 *@param Bigsnake: the snake which died
 */
-void init_screen_state(SnakeBig* Bigsnake);
+void init_screen_state(SnakeBig* loser_snake, SnakeBig* winner_snake, bool multiplayer);
 
 /*
 * Function is called by init_screen_state
 * It draws a text and waits for the green button to be pressed (return to the menu)
 *
-*@param Bigsnake: the snake which died
+*@param big_snake: the snake which died
 */
-void draw_died_screen(SnakeBig* Bigsnake);
+void draw_died_screen_single(SnakeBig* big_snake);
+
+void draw_died_screen_multi(SnakeBig* loser_snake, SnakeBig* winner_snake);
 
 #endif // END_STATE_H
