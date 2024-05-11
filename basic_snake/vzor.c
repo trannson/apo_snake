@@ -19,6 +19,7 @@ void draw_pixel(int x, int y, unsigned short color) {
   }
 }
  
+ 
 int main(int argc, char *argv[]) {
   unsigned char *parlcd_mem_base, *mem_base;
   int i,j;
