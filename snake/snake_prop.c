@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define SQUARE_SIZE 15
+#define SQUARE_SIZE 20
 
 SnakeBig* build_snake(int lenght, int dir, int curr_dir, int prev_dir, unsigned short color, int x1, int x2, int y) {
     SnakeBig* big_snake = (SnakeBig*)malloc(sizeof(SnakeBig));

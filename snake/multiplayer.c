@@ -22,6 +22,8 @@
 #include "food_maker.h"
 #include "snake_prop.h"
 #include "multiplayer.h"
+#include "RGB_led.h"
+#include "led_line.h"
 
 extern unsigned short *fb;
 extern unsigned char *parlcd_mem_base;
@@ -35,14 +37,17 @@ void multiplayer(bool timerush) {
     int ptr;
     int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
-    SnakeBig* Bblue_snake = build_snake(2, 3, ((r&0xff)), ((r&0xff)), 0x7ff, 150, 165, 150);
-    SnakeBig* Bred_snake = build_snake(2, 1, (((r>>16)&0xff)), (((r>>16)&0xff)), 0xF000, 400, 15, 150);
+    SnakeBig* Bblue_snake = build_snake(2, 3, ((r&0xff)), ((r&0xff)), 0x7ff, 140, 160, 140);
+    SnakeBig* Bred_snake = build_snake(2, 1, (((r>>16)&0xff)), (((r>>16)&0xff)), 0xF000, 400, 420, 140);
 
     int apple_x = 200;
     int apple_y = 200;
     
     while (1) {
- 
+        display_color_led1(0, 255, 0);
+        display_color_led2(0, 255, 0);
+
+        display_lenght(Bblue_snake->lenght, Bred_snake->lenght);
         r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
         Bblue_snake->curr_dir = ((r&0xff));

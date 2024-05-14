@@ -44,4 +44,6 @@ bool check_snake_collision(SnakeBig* BigSnake);
 */
 bool apple_collision(int snake_x, int snake_y, int* apple_x, int* apple_y);
 
+bool snakes_collisions(SnakeBig* snk1, SnakeBig* snk2);
+
 #endif // COLLISIONS_H

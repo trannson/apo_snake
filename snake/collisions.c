@@ -8,6 +8,7 @@
 #include "food_maker.h"
 #include "snake_prop.h"
 #include "end_state.h"
+#include "RGB_led.h"
 
 /*
 Dimensions of the LCD panel
@@ -20,25 +21,50 @@ bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x,
     bool ret = false;
     if (check_snake_collision(Bblue_snake) || check_bounds_collisions(Bblue_snake->snake->x, Bblue_snake->snake->y)) 
     {
+        display_color_led2(255, 0, 0);
+        if (!multiplayer) {
+            display_color_led1(255, 0, 0);
+        }
         init_screen_state(Bblue_snake, Bred_snake, multiplayer);
         ret = true;
     } else if (check_snake_collision(Bred_snake) || check_bounds_collisions(Bred_snake->snake->x, Bred_snake->snake->y)) 
     {
+        display_color_led1(255, 0, 0);
+        if (!multiplayer) {
+            display_color_led2(255, 0, 0);
+        }
         init_screen_state(Bred_snake, Bblue_snake, multiplayer);
         ret = true;
     } else if (apple_collision(Bblue_snake->snake->x, Bblue_snake->snake->y, apple_x, apple_y)) {
+        display_color_led2(0, 0, 255);
+        if (!multiplayer) {
+            display_color_led1(0, 0,255);
+        }
         make_food(apple_x, apple_y);
         Snake* tmp = create_snake_part(Bblue_snake->tail->index++, Bblue_snake->tail->x, Bblue_snake->tail->y);
         add_snake(Bblue_snake->tail, tmp);
         Bblue_snake->tail = tmp;
         Bblue_snake->lenght++;
     } else if (apple_collision(Bred_snake->snake->x, Bred_snake->snake->y, apple_x, apple_y)) {
+        display_color_led1(0, 0, 255);
+        if (!multiplayer) {
+            display_color_led2(0, 0,255);
+        }
         make_food(apple_x, apple_y);
 
         Snake* tmp = create_snake_part(Bred_snake->tail->index++, Bred_snake->tail->x, Bred_snake->tail->y);
         add_snake(Bred_snake->tail, tmp);
         Bred_snake->tail = tmp;
         Bred_snake->lenght++;
+    }
+    if (multiplayer) {
+        if (snakes_collisions(Bblue_snake, Bred_snake)) {
+            init_screen_state(Bred_snake, Bblue_snake, multiplayer);
+            ret = true;
+        } else if (snakes_collisions(Bred_snake, Bblue_snake)) {
+            init_screen_state(Bblue_snake, Bred_snake, multiplayer);
+            ret = true;
+        }
     }
     return ret;
 }
@@ -64,7 +90,6 @@ bool check_snake_collision(SnakeBig* BigSnake) {
         }
 
         current = current->next;
-        
     }
     return ret;
 }
@@ -72,7 +97,24 @@ bool check_snake_collision(SnakeBig* BigSnake) {
 bool apple_collision(int snake_x, int snake_y, int* apple_x, int* apple_y) {
     bool ret = false;
     if (abs(snake_x - *apple_x) < 20 && abs(snake_y - *apple_y) < 20) {
-        return true;
+        
+        ret = true;
     }
     return ret;
 }
+
+bool snakes_collisions(SnakeBig* snk1, SnakeBig* snk2) {
+    bool ret = false;
+    
+    Snake* current = snk1->snake;
+    while (current != NULL) {
+        if (snk2->snake->x == current->x && snk2->snake->y == current->y) {
+            ret = true;
+            break;
+        }
+
+        current = current->next;
+    }
+    return ret;
+}
+

@@ -22,6 +22,8 @@
 #include "food_maker.h"
 #include "snake_prop.h"
 #include "singleplayer.h"
+#include "RGB_led.h"
+#include "led_line.h"
 
 extern unsigned short *fb;
 extern unsigned char *parlcd_mem_base;
@@ -41,7 +43,10 @@ void singleplayer(bool timerush) {
   int apple_y = 200;
 
   while (1) {
- 
+    display_color_led1(0, 255, 0);
+    display_color_led2(0, 255, 0);
+
+    display_lenght(Bblue_snake->lenght, Bblue_snake->lenght);
     r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
     Bblue_snake->curr_dir = ((r&0xff)); 
