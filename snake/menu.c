@@ -40,19 +40,19 @@ int show_menu() {
     */
 
     // START button
-    int start_txt_x = 145;
-    int start_txt_y = 40;
+    int start_txt_x = 32;
+    int start_txt_y = 150;
     char start_txt_txt[] = "START";
     unsigned short start_txt_clr = 0xF000; 
 
     // SELECT MODE button
-    int gmode_txt_x = 145;
-    int gmode_txt_y = 140;
+    int gmode_txt_x = 270;
+    int gmode_txt_y = 150;
     char gmode_txt_txt[] = "MODE";
     unsigned short gmode_txt_clr = 0xF000; 
 
     // Last button TODO
-    int exit_txt_x = 145;
+    int exit_txt_x = 270;
     int exit_txt_y = 240;
     char exit_txt_txt[] = "EXIT";
     unsigned short exit_txt_clr = 0xF000;
@@ -81,17 +81,21 @@ int show_menu() {
 
     while(menu_running) {
 
+        write_text(20, 10, "SNAKE", 0xF00, 9, 80);
+
         /*
         Drawing buttons with their texts
         ********************************************************************************
         */
-        draw_button(140, 30, 340, 100);
-        draw_button(140, 130, 340, 200);
-        draw_button(140, 230, 340, 300);
+        draw_button(30, 140, 220, 210);
+        draw_button(260, 140, 450, 210);
+        draw_button(30, 230, 220, 300);
+        draw_button(260, 230, 450, 300);
 
         write_text(start_txt_x, start_txt_y, start_txt_txt, start_txt_clr, 4, offset);
         write_text(gmode_txt_x, gmode_txt_y, gmode_txt_txt, gmode_txt_clr, 4, offset);
         write_text(exit_txt_x, exit_txt_y, exit_txt_txt, exit_txt_clr, 4, offset);
+        //write_text(exit_txt_x, exit_txt_y, exit_txt_txt, exit_txt_clr, 4, offset);
         /*
         End of drawing buttons with their texts
         ********************************************************************************
@@ -100,20 +104,25 @@ int show_menu() {
         r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
         curr_green = (((r>>8)&0xff)); // green knob
 
-        menu_button = modify_while_rotating(curr_green, prev_green, menu_button, 3);
+        menu_button = modify_while_rotating(curr_green, prev_green, menu_button, 4);
 
         // Drawing outer lines around the button the cursor is currently on
         switch (menu_button)
         {
         case 1:
-        draw_outer_lines(140, 30, 340, 100);      
-        break;
+            draw_outer_lines(30, 140, 220, 210);      
+            break;
         case 2:
-        draw_outer_lines(140, 130, 340, 200);
-        break;
+            draw_outer_lines(260, 140, 450, 210);
+            break;
         case 3:
-        draw_outer_lines(140, 230, 340, 300);
-        break;
+            draw_outer_lines(30, 230, 220, 300);
+            break;
+        case 4:
+            draw_outer_lines(260, 230, 450, 300);
+            break;
+        default:
+            break;
         }
 
         parlcd_write_cmd(parlcd_mem_base, 0x2c);
@@ -138,6 +147,9 @@ int show_menu() {
                     ret = show_game_modes();
                     break;
                 case 3:
+                    // setting yet to be implemented
+                    break;
+                case 4:
                     ret = 5;
                     menu_running = false;
                     break;

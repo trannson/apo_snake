@@ -9,6 +9,7 @@
 #include "snake_prop.h"
 #include "end_state.h"
 #include "RGB_led.h"
+#include "timerush.h"
 
 /*
 Dimensions of the LCD panel
@@ -17,7 +18,7 @@ Dimensions of the LCD panel
 #define HEIGHT 320
 
 
-bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y, bool multiplayer) {
+bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y, bool multiplayer, bool timerush, int* blue_time, int* red_time) {
     bool ret = false;
     if (check_snake_collision(Bblue_snake) || check_bounds_collisions(Bblue_snake->snake->x, Bblue_snake->snake->y)) 
     {
@@ -40,6 +41,9 @@ bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x,
         if (!multiplayer) {
             display_color_led1(0, 0,255);
         }
+        if (timerush) {
+            reset_time(blue_time);
+        }
         make_food(apple_x, apple_y);
         Snake* tmp = create_snake_part(Bblue_snake->tail->index++, Bblue_snake->tail->x, Bblue_snake->tail->y);
         add_snake(Bblue_snake->tail, tmp);
@@ -49,6 +53,9 @@ bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x,
         display_color_led1(0, 0, 255);
         if (!multiplayer) {
             display_color_led2(0, 0,255);
+        }
+        if (timerush) {
+            reset_time(red_time);
         }
         make_food(apple_x, apple_y);
 

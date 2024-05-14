@@ -14,7 +14,7 @@
 *@param apple_y: pointer to an apple y coordinate
 *@return ret: should be there TODO
 */
-bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y, bool multiplayer);
+bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y, bool multiplayer, bool timerush, int* blue_time, int* red_time);
 
 /*
 * Checks if the snake's head has reached the screen boundaries

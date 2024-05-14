@@ -18,9 +18,9 @@ int random_num_in_range(int min, int max) {
 }
 
 void draw_apple(int apple_x, int apple_y) {
-    for (int i = 0; i < 11; ++i) {
-        for (int j = 0; j < 11; ++j) {
-          draw_pixel(i+apple_x, j + apple_y, 0xF000);
+    for (int i = 0; i < 14; ++i) {
+        for (int j = 0; j < 14; ++j) {
+          draw_pixel(i+apple_x, j + apple_y, 0xF00);
         }
     }
 }

@@ -24,6 +24,8 @@
 #include "singleplayer.h"
 #include "RGB_led.h"
 #include "led_line.h"
+#include "timerush.h"
+#include "end_state.h"
 
 extern unsigned short *fb;
 extern unsigned char *parlcd_mem_base;
@@ -35,6 +37,8 @@ void singleplayer(bool timerush) {
   loop_delay.tv_sec = 0;
   loop_delay.tv_nsec = 150 * 1000 * 1000;
   int ptr;
+  int time_amount = 8;
+  int ticks = 0;
   int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
   SnakeBig* Bblue_snake = build_snake(2, 1, ((r&0xff)), ((r&0xff)), 0x7ff, 150, 165, 150);
@@ -43,6 +47,7 @@ void singleplayer(bool timerush) {
   int apple_y = 200;
 
   while (1) {
+    
     display_color_led1(0, 255, 0);
     display_color_led2(0, 255, 0);
 
@@ -63,12 +68,22 @@ void singleplayer(bool timerush) {
     for (ptr = 0; ptr < 320*480 ; ptr++) {
         fb[ptr]=0u; 
     }
+
+    if (timerush) {
+      ticks++;
+      decrease_time(&time_amount, &ticks);
+      display_time1(time_amount);
+    }
+    if (time_amount <= 0) {
+      init_screen_state(Bblue_snake, Bblue_snake, false);
+      break;
+    }
     
     draw_snake(Bblue_snake->snake, Bblue_snake->color);
     
     draw_apple(apple_x, apple_y);
 
-    if (check_collisions(Bblue_snake, Bblue_snake, &apple_x, &apple_y, false)) {
+    if (check_collisions(Bblue_snake, Bblue_snake, &apple_x, &apple_y, false, timerush, &time_amount, &time_amount)) {
       break;
     }
 

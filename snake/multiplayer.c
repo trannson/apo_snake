@@ -24,6 +24,8 @@
 #include "multiplayer.h"
 #include "RGB_led.h"
 #include "led_line.h"
+#include "timerush.h"
+#include "end_state.h"
 
 extern unsigned short *fb;
 extern unsigned char *parlcd_mem_base;
@@ -35,10 +37,14 @@ void multiplayer(bool timerush) {
     loop_delay.tv_sec = 0;
     loop_delay.tv_nsec = 150 * 1000 * 1000;
     int ptr;
+    int blue_time_amount = 8;
+    int ticks1 = 0;
+    int ticks2 = 0;
+    int red_time_amount = 8;
     int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
-    SnakeBig* Bblue_snake = build_snake(2, 3, ((r&0xff)), ((r&0xff)), 0x7ff, 140, 160, 140);
-    SnakeBig* Bred_snake = build_snake(2, 1, (((r>>16)&0xff)), (((r>>16)&0xff)), 0xF000, 400, 420, 140);
+    SnakeBig* Bblue_snake = build_snake(2, 1, ((r&0xff)), ((r&0xff)), 0x7ff, 400, 420, 140);
+    SnakeBig* Bred_snake = build_snake(2, 3, (((r>>16)&0xff)), (((r>>16)&0xff)), 0xF000, 140, 160, 140); 
 
     int apple_x = 200;
     int apple_y = 200;
@@ -69,13 +75,29 @@ void multiplayer(bool timerush) {
         for (ptr = 0; ptr < 320*480 ; ptr++) {
             fb[ptr]=0u; 
         }
+
+        if (timerush) {
+            ticks1++;
+            ticks2++;
+          decrease_time(&blue_time_amount, &ticks1);
+          decrease_time(&red_time_amount, &ticks2);
+          display_time2(blue_time_amount);
+          display_time1(red_time_amount);
+        }
+        if (blue_time_amount <= 0) {
+            init_screen_state(Bblue_snake, Bred_snake, true);
+            break;
+        } else if (red_time_amount <= 0) {
+            init_screen_state(Bred_snake, Bblue_snake, true);
+            break;
+        }
         
         draw_snake(Bblue_snake->snake, Bblue_snake->color);
         draw_snake(Bred_snake->snake, Bred_snake->color);
 
         draw_apple(apple_x, apple_y);
 
-        if(check_collisions(Bblue_snake, Bred_snake, &apple_x, &apple_y, true)) {
+        if(check_collisions(Bblue_snake, Bred_snake, &apple_x, &apple_y, true, timerush, &blue_time_amount, &red_time_amount)) {
             break;
         }
 
