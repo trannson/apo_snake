@@ -38,9 +38,9 @@ void multiplayer(bool timerush) {
     loop_delay.tv_nsec = 150 * 1000 * 1000;
     int ptr;
     int blue_time_amount = 8;
-    int ticks1 = 0;
-    int ticks2 = 0;
+    int ticksblue = 0;
     int red_time_amount = 8;
+    int ticksred = 0;
     int r = *(volatile uint32_t*)(mem_base + SPILED_REG_KNOBS_8BIT_o);
 
     SnakeBig* Bblue_snake = build_snake(2, 1, ((r&0xff)), ((r&0xff)), 0x7ff, 400, 420, 140);
@@ -77,12 +77,12 @@ void multiplayer(bool timerush) {
         }
 
         if (timerush) {
-            ticks1++;
-            ticks2++;
-          decrease_time(&blue_time_amount, &ticks1);
-          decrease_time(&red_time_amount, &ticks2);
-          display_time2(blue_time_amount);
-          display_time1(red_time_amount);
+            ticksblue++;
+            ticksred++;
+          decrease_time(&blue_time_amount, &ticksblue);
+          decrease_time(&red_time_amount, &ticksred);
+          display_time2(red_time_amount);
+          display_time1(blue_time_amount);
         }
         if (blue_time_amount <= 0) {
             init_screen_state(Bblue_snake, Bred_snake, true);
