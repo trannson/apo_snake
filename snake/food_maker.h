@@ -1,29 +1,42 @@
+/**
+ * @file food_maker.h
+ * @author Marek Strympl
+ * @author Son Ngoc Tran
+ * @brief Header file for generating new apple coordinates and drawing the apple
+*/
+
 #ifndef FOODMAKER_H
 #define FOODMAKER_H
 
-/*
-* Calls random_num_in_range, which will assign new coordinates to the food
-*
-*@param random_x: pointer to the current food's x coordinate, which will be changed (new value will be between 20 - 460)
-*@param random_y: pointer to the current food's y coordinate, which will be changed (new value will be between 20 - 300)
-*/
+/**
+ * @brief Generates random coordinates for food (apple) within specified ranges.
+ * 
+ * This function sets random x and y coordinates for food within the ranges [20, 460] and [20, 300] respectively.
+ * 
+ * @param[out] random_x Pointer to the x-coordinate of the food.
+ * @param[out] random_y Pointer to the y-coordinate of the food.
+ */
 void make_food(int* random_x, int* random_y);
 
-/*
-* Generates new value to the x and y coordinate in the given range
-*
-*@param min: the lowest possible new value
-*@param max: the highest possible new value
-*return value: new value for the x or y coordinate
-*/
+/**
+ * @brief Generates a random number within a specified range.
+ * 
+ * This function returns a random integer within the range [min, max].
+ * 
+ * @param[in] min The minimum value of the range.
+ * @param[in] max The maximum value of the range.
+ * @return int A random number within the specified range.
+ */
 int random_num_in_range(int min, int max);
 
-/*
-* Draws an apple due to it's coordinates
-*
-*@param apple_x: the x coordinate of the apple
-*@param apple_y: the y coordinate of the apple
-*/
+/**
+ * @brief Draws an apple on the screen.
+ * 
+ * This function draws a red square representing an apple at the specified coordinates.
+ * 
+ * @param[in] apple_x The x-coordinate of the apple's position.
+ * @param[in] apple_y The y-coordinate of the apple's position.
+ */
 void draw_apple(int apple_x, int apple_y);
 
 #endif // FOODMAKER_H

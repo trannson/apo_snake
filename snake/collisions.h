@@ -1,49 +1,68 @@
+/**
+ * @file collisions.h
+ * @author Marek Strympl
+ * @author Son Ngoc Tran
+ * @brief Header file for checking snake's collisions
+*/
+
 #ifndef COLLISIONS_H
 #define COLLISIONS_H
 
 #include <stdbool.h>
 #include "snake_prop.h"
 
-/*
-* Takes one or two snakes (depending on a game mode) and for each snake checks their collisions
-*
-*@param Bblue_snake: the struct of the blue snake, the strcut is defined in snake_prop.h
-*@param Bred_snake: the struct of the blue snake, the strcut is defined in snake_prop.h
-* NOTE: in singleplayer, Bblue_snake and Bred_snake are the same snake, but it works the same 
-*@param apple_x: pointer to an apple x coordinate 
-*@param apple_y: pointer to an apple y coordinate
-*@return ret: should be there TODO
-*/
+/**
+ * @brief Checks for collisions between snakes, boundaries, and apples.
+ * 
+ * @param Bblue_snake Pointer to the blue snake.
+ * @param Bred_snake Pointer to the red snake.
+ * @param apple_x Pointer to the x-coordinate of the apple.
+ * @param apple_y Pointer to the y-coordinate of the apple.
+ * @param multiplayer Indicates if the game is multiplayer.
+ * @param timerush Indicates if the game is in time rush mode.
+ * @param blue_time Pointer to the blue snake's time in time rush mode.
+ * @param red_time Pointer to the red snake's time in time rush mode.
+ * @return true if there is a collision, false otherwise.
+ */
 bool check_collisions(SnakeBig* Bblue_snake, SnakeBig* Bred_snake, int* apple_x, int* apple_y, bool multiplayer, bool timerush, int* blue_time, int* red_time);
 
-/*
-* Checks if the snake's head has reached the screen boundaries
-*
-* @param snake_x: current x coordinate of the snake's head
-* @param snake_y: current y coordinate of the snake's head
-* @return ret: true if the snake is still inside the boarders, false if out of bounds
-*/
+/**
+ * @brief Checks for collisions with the game boundaries.
+ * 
+ * @param snake_x The x-coordinate of the snake.
+ * @param snake_y The y-coordinate of the snake.
+ * @return true if there is a boundary collision, false otherwise.
+ */
 bool check_bounds_collisions(int snake_x, int snake_y);
 
-/*
-* Checks if the snake collided with itself
-*
-*@param BigSnake: snake to be checked
-*@return ret: false if the snake hasn't bumped into itself, otherwise true
-*/
+/**
+ * @brief Checks for collisions between a snake and itself.
+ * 
+ * @param BigSnake Pointer to the snake.
+ * @return true if there is a self-collision, false otherwise.
+ */
 bool check_snake_collision(SnakeBig* BigSnake);
 
-/*
-* Checks if the snake's head had collided with an apple
-*
-* @param snake_x: x coordinate of the snake's head
-* @param snake_y: y coordinate of the snake's head
-* @param apple_x: x coordinate of the apple
-* @param apple_y: y coordinate of the apple
-* @return ret: true if the snake reached the apple, otherwise false
-*/
+/**
+ * @brief Checks for collisions between a snake and an apple.
+ * 
+ * @param snake_x The x-coordinate of the snake.
+ * @param snake_y The y-coordinate of the snake.
+ * @param apple_x Pointer to the x-coordinate of the apple.
+ * @param apple_y Pointer to the y-coordinate of the apple.
+ * @return true if there is a collision between the snake and the apple, false otherwise.
+ */
 bool apple_collision(int snake_x, int snake_y, int* apple_x, int* apple_y);
 
+/**
+ * @brief Checks for collisions between two snakes.
+ * 
+ * This function checks whether the head of one snake collides with any part of the other snake.
+ * 
+ * @param snk1 Pointer to the first SnakeBig structure representing the first snake.
+ * @param snk2 Pointer to the second SnakeBig structure representing the second snake.
+ * @return true if there is a collision between the snakes, false otherwise.
+ */
 bool snakes_collisions(SnakeBig* snk1, SnakeBig* snk2);
 
 #endif // COLLISIONS_H

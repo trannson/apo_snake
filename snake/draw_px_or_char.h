@@ -1,43 +1,51 @@
+/**
+ * @file draw_px_or_char.h
+ * @author Marek Strympl
+ * @author Son Ngoc Tran
+ * @brief Header file for drawing pixels and writing text on a display
+ *        these functions were taken from courseware from 
+ *        https://cw.fel.cvut.cz/wiki/courses/b35apo/tutorials/11/start
+*/
+
 #ifndef DRAW_H
 #define DRAW_H
 
-/*
-* Gives pixel with coordinates color
-*
-* @param x: pixel's x coordinate
-* @param y: pixel's y coordinate
-* @param color: new color for the pixel 
-*/
+/**
+ * @brief Draws a single pixel on the framebuffer.
+ * 
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ */
 void draw_pixel(int x, int y, unsigned short color);
 
-/*
-* Renders the neighborhood of a pixel depending on the scale
-* Calls draw_pixel for all those pixels
-*
-* @param x: pixel's x coordinate
-* @param y: pixel's y coordinate
-* @param color: new color for the pixel(s)
-* @param scale: a measure of how many surrounding pixels are colored
-*/
+/**
+ * @brief Draws a scaled pixel on the framebuffer.
+ * 
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ * @param scale The scale factor.
+ */
 void draw_pixel_big(int x, int y, unsigned short color, int scale);
 
-/*
-* Gets char's width
-*
-* @param ch: given char
-* @return width: width of the character
-*/
+/**
+ * @brief Returns the width of a character.
+ * 
+ * @param ch The character.
+ * @return The width of the character.
+ */
 int char_width(int ch);
 
-/*
-* Draws character made of pixels
-*
-* @param x: starting x coordinate of the character
-* @param y: starting y coordinate of the character
-* @param ch: given character
-* @param color: color of the character
-* @param scale: a measure of how many surrounding pixels are colored
-*/
+/**
+ * @brief Draws a character on the framebuffer.
+ * 
+ * @param x The x-coordinate of the character.
+ * @param y The y-coordinate of the character.
+ * @param ch The character to draw.
+ * @param color The color of the character.
+ * @param scale The scale factor.
+ */
 void draw_char(int x, int y, char ch, unsigned short color, int scale);
 
 #endif // DRAW_H
