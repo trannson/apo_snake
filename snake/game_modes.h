@@ -1,12 +1,21 @@
+/**
+ * @file game_modes.h
+ * @author Marek Strympl
+ * @author Son Ngoc Tran
+ * @brief Header file for showing a menu, that allows the user to select a game mode
+*/
+
 #ifndef GMODES_H
 #define GMODES_H
 
-/*
-* Starts a while loop, where is a menu of the game modes displayed
-*
-* @return ret: number from 1 to 4, each represents different game mode
-* 1 is SINGLEPLAYER CLASSIC, 2 is SINGLEPLAYER TIMERUSH, 3 is MULTIPLAYER CLASSIC, 4 is MULTIPLAYER TIMERUSH
-*/
+/**
+ * @brief Displays the game modes menu and allows the user to select a mode.
+ * 
+ * This function draws the game modes menu on the screen, allowing the user to navigate
+ * through different game modes using a knob and select one by pressing it.
+ * 
+ * @return int The selected game mode.
+ */
 int show_game_modes();
 
 #endif // GMODES_H

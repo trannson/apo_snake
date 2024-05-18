@@ -1,52 +1,64 @@
+/**
+ * @file buttons.h
+ * @author Marek Strympl
+ * @author Son Ngoc Tran
+ * @brief Header file for drawing buttons, their outer lines and text displayed on those buttons
+*/
+
 #ifndef BUTTONS_H
 #define BUTTONS_H
 
 // In buttons.c there is macro SENSITIVITY, which modifies sensitivity for button rotating
 
-/*
-* Modifies action_num, which represents some actions, each has it's given number
-* If the button moved to the left, then prev_value is higher then current
-* If the button moved to the right, then prev_value is lower then current
-* If prev_value and curr_value are the same, then button didn't move enough
-*
-* @param cur_value: current value of some periphery (button in our case)
-* @param prev_value: the value of the same periphery, as in cur_value, but the value is from the previous refresh of the (while) loop
-* @param action_num: number of the current action, this value can be within 1 nad upper_range, each number represents different action that takes place
-* @param upper_range: indicates the highest value @param action_num can have
-* @return action_num: is new action number, which will take place
-*/
+/**
+ * @brief Modifies the action number based on knob rotation.
+ * 
+ * This function adjusts the action number based on the direction and magnitude of the knob rotation.
+ * 
+ * @param cur_value The current value of the knob (0 - 256).
+ * @param prev_value The previous value of the knob (0 - 256).
+ * @param action_num The current action number.
+ * @param upper_range The upper range of the action number.
+ * @return The modified action number.
+ */
 int modify_while_rotating(int cur_value, int prev_value, int action_num, int upper_range);
 
-/*
-* Writes a given text to specific location
-*
-* @param x: starting x coordinate
-* @param y: starting y coordinate
-* @param text[]: text to be written
-* @param color: color of the text
-* @param scale: multiplicator of how big the text will be (recommended 2 - 6)
-* @param offset: amount of pixels for extra space between characters
-*/
+/**
+ * @brief Writes text on the screen.
+ * 
+ * This function writes text on the screen at the specified position with the given color, scale, and offset.
+ * 
+ * @param x The x-coordinate of the starting position.
+ * @param y The y-coordinate of the starting position.
+ * @param text The text to be written.
+ * @param color The color of the text.
+ * @param scale The scale of the text.
+ * @param offset The offset between characters.
+ */
 void write_text(int x, int y, char text[], unsigned short color, int scale, int offset);
 
-/*
-* Gets two points of the rectangle (top left and down right corners) and fill this area with color
-*
-* @param start_x: x coordinate of the first point
-* @param start_y: y coordinate of the first point
-* @param end_x: x coordinate of the second point
-* @param end_y: y coordinate of the second point
-*/
+/**
+ * @brief Draws a button on the screen.
+ * 
+ * This function draws a button with the specified start and end coordinates.
+ * 
+ * @param start_x The x-coordinate of the top-left corner.
+ * @param start_y The y-coordinate of the top-left corner.
+ * @param end_x The x-coordinate of the bottom-right corner.
+ * @param end_y The y-coordinate of the bottom-right corner.
+ */
 void draw_button(int start_x, int start_y, int end_x, int end_y);
 
-/*
-* Draws outher lines around button with these two points
-*
-* @param start_x: x coordinate of the first point
-* @param start_y: y coordinate of the first point
-* @param end_x: x coordinate of the second point
-* @param end_y: y coordinate of the second point
-*/
+/**
+ * @brief Draws outer lines around a button.
+ * 
+ * This function draws outer lines around a button to highlight it.
+ * 
+ * @param start_x The x-coordinate of the top-left corner.
+ * @param start_y The y-coordinate of the top-left corner.
+ * @param end_x The x-coordinate of the bottom-right corner.
+ * @param end_y The y-coordinate of the bottom-right corner.
+ */
 void draw_outer_lines(int start_x, int start_y, int end_x, int end_y);
 
 #endif // BUTTONS_H

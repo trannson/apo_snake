@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include <termios.h>            //termios, TCSANOW, ECHO, ICANON
  
-
 #include "mzapo_parlcd.h"
 #include "mzapo_phys.h"
 #include "mzapo_regs.h"
