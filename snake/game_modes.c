@@ -43,28 +43,28 @@ int show_game_modes() {
     int single_y1 = 10;
     int single_y2 = 90;
     char single_txt[] = "SINGLE";
-    unsigned short single_clr = 0xF000;
+    unsigned short single_clr = 0x0010;
 
     // CLASSIC text
     int classic_x = 125;
     int classic_y1 = 45;
     int classic_y2 = 205;
     char classic_txt[] = "CLASSIC";
-    unsigned short classic_clr = 0xF000;
+    unsigned short classic_clr = 0x0010;
 
     // MULTIPLAYER text
     int multi_x = 160;
     int multi_y1 = 170;
     int multi_y2 = 250;
     char multi_txt[] = "MULTI";
-    unsigned short multi_clr = 0xF000; 
+    unsigned short multi_clr = 0x0010; 
 
     // TIME RUSH text
     int timerush_x = 110;
     int timerush_y1 = 125;
     int timerush_y2 = 285;
     char timerush_txt[] = "TIMERUSH";
-    unsigned short timerush_clr = 0xF000;
+    unsigned short timerush_clr = 0x0010;
 
     // The extra space between letters
     int offset = 25;

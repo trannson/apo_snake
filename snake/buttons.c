@@ -53,7 +53,7 @@ void write_text(int x, int y, char text[], unsigned short color, int scale, int 
 void draw_button(int start_x, int start_y, int end_x, int end_y) {
     for (int i = 0; i < end_x - start_x; ++i) {
         for (int j = 0; j < end_y - start_y; ++j) {
-            fb[start_x + i + (start_y + j)*480] = 0x7ff;    
+            fb[start_x + i + (start_y + j)*480] = 0xFFFF;    
         }
     }
 }

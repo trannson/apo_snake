@@ -81,10 +81,10 @@ void draw_died_screen_single(SnakeBig* big_snake) {
         write_text(50, 90, score, big_snake->color, 3, 20);
 
         draw_button(110, 150, 370, 200);
-        write_text(120, 155, "TO MENU", 0xF000, 3, 25);
+        write_text(120, 155, "TO MENU", 0x0010, 3, 25);
 
         draw_button(110, 220, 370, 270);
-        write_text(135, 225, "SUBMIT", 0xF000, 3, 25);
+        write_text(135, 225, "SUBMIT", 0x0010, 3, 25);
 
         switch(end_state_button) {
             case 1:
@@ -157,10 +157,10 @@ void draw_died_screen_multi(SnakeBig* loser_snake, SnakeBig* winner_snake) {
         write_text(40, 120, red_score, winner_snake->color, 2, 15);
 
         draw_button(110, 170, 370, 220);
-        write_text(120, 175, "TO MENU", 0xF000, 3, 25);
+        write_text(120, 175, "TO MENU", 0x0010, 3, 25);
 
         draw_button(110, 240, 370, 290);
-        write_text(135, 245, "SUBMIT", 0xF000, 3, 25);
+        write_text(135, 245, "SUBMIT", 0x0010, 3, 25);
 
         switch(end_state_button) {
             case 1:

@@ -128,16 +128,16 @@ void submit(SnakeBig* snake) {
                 draw_outer_lines(385, 160, 455, 210);
                 break;
             case 25:
-                draw_outer_lines(10, 215, 80, 255);
+                draw_outer_lines(10, 225, 80, 265);
                 break;
             case 26:
-                draw_outer_lines(85, 215, 155, 255);
+                draw_outer_lines(85, 225, 155, 265);
                 break;
             case 27:
-                draw_outer_lines(160, 215, 340, 255);
+                draw_outer_lines(160, 225, 340, 265);
                 break;
             case 28:
-                draw_outer_lines(345, 215, 455, 255);
+                draw_outer_lines(345, 225, 455, 265);
             default:
                 break;
         }
@@ -174,72 +174,31 @@ void submit(SnakeBig* snake) {
 }
 
 void make_buttons() {
-    draw_button(10, 5, 80, 55);
-    write_text(30, 5, "A", 0xF000, 3, 0);
-    draw_button(85, 5, 155, 55);
-    write_text(85, 5, "B", 0xF000, 3, 0);
-    draw_button(160, 5, 230, 55);
-    write_text(160, 5, "C", 0xF000, 3, 0);
-    draw_button(235, 5, 305, 55);
-    write_text(235, 5, "D", 0xF000, 3, 0);
-    draw_button(310, 5, 380, 55);
-    write_text(310, 5, "E", 0xF000, 3, 0);
-    draw_button(385, 5, 455, 55);
-    write_text(385, 5, "F", 0xF000, 3, 0);
+    char c = 'A';
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 6; ++j) {
+            char str[2];
+            sprintf(str, "%c", c);
+            draw_button(10 + j * 75, 5 + i * 55, 80 + j * 75, 55 + i * 55);
+            write_text(30 + j * 75, 5 + i * 55, str, 0x0010, 3, 0);
+            c++;
+        }
+    }
 
-    draw_button(10, 60, 80, 110);
-    write_text(30, 60, "G", 0xF000, 3, 0);
-    draw_button(85, 60, 155, 110);
-    write_text(85, 60, "H", 0xF000, 3, 0);
-    draw_button(160, 60, 230, 110);
-    write_text(160, 60, "I", 0xF000, 3, 0);
-    draw_button(235, 60, 305, 110);
-    write_text(235, 60, "J", 0xF000, 3, 0);
-    draw_button(310, 60, 380, 110);
-    write_text(310, 60, "K", 0xF000, 3, 0);
-    draw_button(385, 60, 455, 110);
-    write_text(385, 60, "L", 0xF000, 3, 0);
-
-    draw_button(10, 115, 80, 155);
-    write_text(30, 115, "M", 0xF000, 3, 0);
-    draw_button(85, 115, 155, 155);
-    write_text(85, 115, "N", 0xF000, 3, 0);
-    draw_button(160, 115, 230, 155);
-    write_text(160, 115, "O", 0xF000, 3, 0);
-    draw_button(235, 115, 305, 155);
-    write_text(235, 115, "P", 0xF000, 3, 0);
-    draw_button(310, 115, 380, 155);
-    write_text(310, 115, "Q", 0xF000, 3, 0);
-    draw_button(385, 115, 455, 155);
-    write_text(385, 115, "R", 0xF000, 3, 0);
-
-    draw_button(10, 160, 80, 210);
-    write_text(30, 160, "S", 0xF000, 3, 0);
-    draw_button(85, 160, 155, 210);
-    write_text(85, 160, "T", 0xF000, 3, 0);
-    draw_button(160, 160, 230, 210);
-    write_text(160, 160, "U", 0xF000, 3, 0);
-    draw_button(235, 160, 305, 210);
-    write_text(235, 160, "V", 0xF000, 3, 0);
-    draw_button(310, 160, 380, 210);
-    write_text(310, 160, "W", 0xF000, 3, 0);
-    draw_button(385, 160, 455, 210);
-    write_text(385, 160, "X", 0xF000, 3, 0);
-
-    draw_button(10, 215, 80, 255);
-    write_text(30, 215, "Y", 0xF000, 3, 0);
-    draw_button(85, 215, 155, 255);
-    write_text(85, 215, "Z", 0xF000, 3, 0);
+    draw_button(10, 225, 80, 265);
+    write_text(30, 225, "Y", 0x0010, 3, 0);
+    draw_button(85, 225, 155, 265);
+    write_text(105, 225, "Z", 0x0010, 3, 0);
     
-    draw_button(160, 215, 340, 255);
-    write_text(165, 215, "DELETE", 0xF000, 3, 20);
+    draw_button(160, 225, 340, 265);
+    write_text(165, 225, "DELETE", 0x0010, 3, 20);
 
-    draw_button(345, 215, 455, 255);
-    write_text(345, 215, "DONE", 0xF000, 3, 20);
+    draw_button(345, 225, 455, 265);
+    write_text(345, 225, "DONE", 0x0010, 3, 20);
 }
 
 void save_score(char name[], int score) {
-    FILE *file = fopen("scores.txt", "a");
+    FILE *file = fopen("scores.txt", "w");
     if (file == NULL) {
         fprintf(stderr, "Error: file coulnd be opened on line %d\n", __LINE__);
         exit(-1);
